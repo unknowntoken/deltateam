@@ -9,15 +9,15 @@ import org.academiadecodigo.tropadelete.views.MainView;
 public class ChatClient extends ApplicationAdapter implements InputProcessor {
 
     private LoginView login;
-    private MainView view;
+    private LoginView view;
     private ConnectionHandler server;
 
     @Override
     public void create() {
-        view = new MainView();
+        view = new LoginView();
 
-        server = new ConnectionHandler(view);
-        view.setConnectionHandler(server);
+        server = new ConnectionHandler(new MainView());
+        //view.setConnectionHandler(server);
         view.create();
         server.start();
     }

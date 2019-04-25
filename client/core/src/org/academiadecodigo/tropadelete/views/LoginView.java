@@ -45,7 +45,7 @@ public class LoginView extends ApplicationAdapter {
         backgroundRect.height = 1080;
 
         loginImageRect = new Rectangle();
-        loginImageRect.x = 600;
+        loginImageRect.x = 660;
         loginImageRect.y = 390;
         loginImageRect.width = 600;
         loginImageRect.height = 300;
