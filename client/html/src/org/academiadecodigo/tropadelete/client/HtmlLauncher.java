@@ -39,7 +39,7 @@ public class HtmlLauncher extends GwtApplication {
         //         getRootPanel().setWidth("" + width + "px");
         //         getRootPanel().setHeight("" + height + "px");
         //         getApplicationListener().resize(width, height);
-        //         Gdx.graphics.setWindowedMode(width, height);
+        //         Gdx.Graphics.setWindowedMode(width, height);
         //     }
         // }
         // END OF CODE FOR RESIZABLE APPLICATION
