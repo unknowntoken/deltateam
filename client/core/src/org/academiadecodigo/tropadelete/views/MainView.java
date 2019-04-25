@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -16,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import org.academiadecodigo.tropadelete.MessageHandler;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 
-import java.awt.*;
 
 public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler {
 
@@ -136,15 +136,14 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     public boolean keyDown(int keycode) {
 
         if (keycode == Input.Keys.ENTER){
-            message_field.appendText("\n");
             server.sendMessageToServer(inputMessage.getText());
-            System.out.println(inputMessage.getText());
-            inputMessage.selectAll();
-            inputMessage.clearSelection();
+            message_field.appendText(inputMessage.getText());
+            message_field.appendText("\n");
+            inputMessage.setText("");
 
         }else {
             inputMessage.appendText(Input.Keys.toString(keycode));
-            message_field.appendText(Input.Keys.toString(keycode));
+
         }
         return false;
     }
