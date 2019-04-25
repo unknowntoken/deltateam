@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,6 +26,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private Stage stage;
     private SpriteBatch batch;
 
+    private Music openingMusic;
+    private Sound messageSentSoundEffect;
+    private Music backgroundMusic;
+
     private ShapeRenderer border;
     private ShapeRenderer messageFieldBackground;
 
@@ -38,12 +44,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private ConnectionHandler server;
 
-    public void setConnectionHandler (ConnectionHandler server){
+    public void setConnectionHandler(ConnectionHandler server) {
         this.server = server;
     }
 
 
-    public void incommingMessage (String message){
+    public void incommingMessage(String message) {
 
         message_field.appendText(message);
 
@@ -58,6 +64,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
         chatBox = new Texture("graphics/chatbox-01_1200x675.png");
 
+        openingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/miracle-harp.mp3"));
+        messageSentSoundEffect = Gdx.audio.newSound(Gdx.files.internal("soundEffects/outgoing-message.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/christmas-tale.mp3"));
+
         backgroundRec = new Rectangle();
         backgroundRec.x = 0;
         backgroundRec.y = 0;
@@ -69,6 +79,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         chatBoxRec.y = 200;
         chatBoxRec.width = 1200;
         chatBoxRec.height = 675;
+
 
         TextField.TextFieldStyle messageStyle = new TextField.TextFieldStyle();
         messageStyle.fontColor = Color.BLACK;
@@ -100,13 +111,14 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public void render() {
+        openingMusic.play();
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         borderAndBackground(message_field);
         borderAndBackground(inputMessage);
         createImages();
-
         stage.draw();
         stage.act();
 
@@ -116,12 +128,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         border.begin(ShapeRenderer.ShapeType.Filled);
         border.setColor(Color.BLACK);
-        border.rect(element.getX()-5,element.getY()-5,element.getWidth()+10,element.getHeight()+10);
+        border.rect(element.getX() - 5, element.getY() - 5, element.getWidth() + 10, element.getHeight() + 10);
         border.end();
 
         border.begin(ShapeRenderer.ShapeType.Filled);
         border.setColor(Color.WHITE);
-        border.rect(element.getX(),element.getY(),element.getWidth(),element.getHeight());
+        border.rect(element.getX(), element.getY(), element.getWidth(), element.getHeight());
         border.end();
 
     }
@@ -132,25 +144,29 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         batch.dispose();
         background.dispose();
         chatBox.dispose();
+        openingMusic.dispose();
         stage.dispose();
+
 
     }
 
     @Override
     public void handleIncomming(String message) {
+        messageSentSoundEffect.play();
         message_field.appendText(message);
 
     }
+
     @Override
     public boolean keyDown(int keycode) {
 
-        if (keycode == Input.Keys.ENTER){
+        if (keycode == Input.Keys.ENTER) {
             server.sendMessageToServer(inputMessage.getText());
             message_field.appendText(inputMessage.getText());
             message_field.appendText("\n");
             inputMessage.setText("");
 
-        }else {
+        } else {
             inputMessage.appendText(Input.Keys.toString(keycode));
 
         }
