@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,6 +22,7 @@ import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler {
 
     private Stage stage;
+    private SpriteBatch batch;
 
     private ShapeRenderer border;
     private ShapeRenderer messageFieldBackground;
@@ -50,6 +52,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     @Override
     public void create() {
 
+        batch = new SpriteBatch();
         stage = new Stage();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
@@ -62,8 +65,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         backgroundRec.height = 1080;
 
         chatBoxRec = new Rectangle();
-        chatBoxRec.x = 0;
-        chatBoxRec.y = 0;
+        chatBoxRec.x = 355;
+        chatBoxRec.y = 200;
         chatBoxRec.width = 1200;
         chatBoxRec.height = 675;
 
@@ -76,18 +79,17 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         inputStyle.font = new BitmapFont();
 
         message_field = new TextArea("", messageStyle);
-        message_field.setWidth(555);
-        message_field.setHeight(400);
-        message_field.setX(20);
-        message_field.setY(100);
+        message_field.setWidth(1100);
+        message_field.setHeight(575);
+        message_field.setPosition(405, 250);
         message_field.toFront();
 
         border = new ShapeRenderer();
         messageFieldBackground = new ShapeRenderer();
 
         inputMessage = new TextField("", inputStyle);
-        inputMessage.setPosition(5, 20);
-        inputMessage.setSize(585, 15);
+        inputMessage.setPosition(405, 250);
+        inputMessage.setSize(1100, 15);
 
         stage.addActor(inputMessage);
         stage.addActor(message_field);
@@ -103,9 +105,11 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         borderAndBackground(message_field);
         borderAndBackground(inputMessage);
+        createImages();
 
         stage.draw();
         stage.act();
+
     }
 
     private void borderAndBackground(Widget element) {
@@ -124,7 +128,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public void dispose() {
+
+        batch.dispose();
+        background.dispose();
+        chatBox.dispose();
         stage.dispose();
+
     }
 
     @Override
@@ -146,6 +155,17 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         }
         return false;
+    }
+
+    private void createImages() {
+
+        batch.begin();
+
+        batch.draw(background, backgroundRec.x, backgroundRec.y);
+        batch.draw(chatBox, chatBoxRec.x, chatBoxRec.y);
+
+        batch.end();
+
     }
 
     @Override
