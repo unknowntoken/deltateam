@@ -105,7 +105,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         borderAndBackground(message_field);
         borderAndBackground(inputMessage);
-        createImages();
+        imagesRender();
 
         stage.draw();
         stage.act();
@@ -157,7 +157,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         return false;
     }
 
-    private void createImages() {
+    private void imagesRender() {
 
         batch.begin();
 
