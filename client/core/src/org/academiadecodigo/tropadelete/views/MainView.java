@@ -64,7 +64,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage = new Stage();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        chatBox = new Texture("graphics/chatbox-01_1200x675.png");
+        chatBox = new Texture("graphics/chat_view-01.png");
 
         backgroundRec = new Rectangle();
         backgroundRec.x = 0;
@@ -73,9 +73,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         backgroundRec.height = 1080;
 
         chatBoxRec = new Rectangle();
-        chatBoxRec.x = 355;
+        chatBoxRec.x = 160;
         chatBoxRec.y = 200;
-        chatBoxRec.width = 1200;
+        chatBoxRec.width = 1600;
         chatBoxRec.height = 675;
 
         TextField.TextFieldStyle messageStyle = new TextField.TextFieldStyle();
@@ -87,9 +87,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         inputStyle.font = new BitmapFont();
 
         message_field = new TextArea("", messageStyle);
-        message_field.setWidth(1100);
-        message_field.setHeight(575);
-        message_field.setPosition(405, 250);
+        message_field.setWidth(860);
+        message_field.setHeight(460);
+        message_field.setPosition(530, 310);
         message_field.toFront();
 
         userListPanel = new ShapeRenderer();
@@ -98,8 +98,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         messageFieldBackground = new ShapeRenderer();
 
         inputMessage = new TextField("", inputStyle);
-        inputMessage.setPosition(405, 250);
-        inputMessage.setSize(1100, 15);
+        inputMessage.setPosition(540, 220);
+        inputMessage.setSize(700, 50);
 
         stage.addActor(inputMessage);
         stage.addActor(message_field);
@@ -115,7 +115,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         borderAndBackground(message_field);
         borderAndBackground(inputMessage);
-        createImages();
+        imagesRender();
 
         stage.draw();
         stage.act();
@@ -175,7 +175,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         return false;
     }
 
-    private void createImages() {
+    private void imagesRender() {
 
         batch.begin();
 
