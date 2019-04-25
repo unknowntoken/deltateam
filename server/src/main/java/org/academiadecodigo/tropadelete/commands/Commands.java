@@ -2,11 +2,13 @@ package org.academiadecodigo.tropadelete.commands;
 
 public enum Commands {
 
-<<<<<<< HEAD
-    LOGIN("login", new LoginCommand()),
-    BROADCAST("broadcast", new BroadcastCommand()),
-    WHISPER("whisper", new WhisperCommand()),
-    NICKNAME("nickname", new NicknameCommand());
+    LOGIN("login",new LoginCommand()),
+
+    BROADCAST("broadcast",new BroadcastCommand()),
+
+    WHISPER("whisper",new WhisperCommand()),
+
+    NICKNAME("nickname",new NicknameCommand());
 
     private String message;
     private CommandHandler handler;
@@ -19,24 +21,13 @@ public enum Commands {
 
     }
 
-    public static Commands textCommand(String message){
+    public static Commands textCommand(String message) {
 
-        if(!message.startsWith()){
+        if (!message.startsWith("")) {
 
         }
 
+        return null;
+
     }
-
-
-=======
-    server.sendComand (boradcast, "message");
->>>>>>> 961af385099545aeb0991fef19fd23399c6d68e6
-}
-
-
-
-public void handleIncommingMessage (Type type, Message message){
-
-    mainTextBox.addMessage (message);
-
 }
