@@ -43,6 +43,8 @@ public class ConnectionHandler {
     public void sendMessageToServer(String message) {
         if (!connectionToServer.isClosed()) {
             printWriter.println(message);
+            printWriter.flush();
+            System.out.println("sending to server: " + message);
         }
 
     }

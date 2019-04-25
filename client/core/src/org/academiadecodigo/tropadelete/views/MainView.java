@@ -137,7 +137,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         if (keycode == Input.Keys.ENTER){
             message_field.appendText("\n");
-            server.sendMessageToServer(inputMessage.getMessageText());
+            server.sendMessageToServer(inputMessage.getText());
+            System.out.println(inputMessage.getText());
             inputMessage.selectAll();
             inputMessage.clearSelection();
 
