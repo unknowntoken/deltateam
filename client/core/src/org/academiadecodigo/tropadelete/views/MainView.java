@@ -20,11 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import org.academiadecodigo.tropadelete.MessageHandler;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 
-import javax.swing.plaf.basic.BasicTreeUI;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.security.Key;
-import java.util.Scanner;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -172,6 +167,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         char c = fromCode(keycode, shift);
 
         inputMessage.appendText(String.valueOf(c));
+        if (Gdx.input.isKeyPressed(ENTER)){
+            server.sendMessageToServer(inputMessage.getText());
+            inputMessage.setText("");
+        }
 
         return false;
     }
@@ -220,11 +219,11 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
                 return CENTER_ARROW;
 
             case Input.Keys.NUM_0:
-                return (shift) ? ')' : '0';
+                return (shift) ? '=' : '0';
             case Input.Keys.NUM_1:
                 return (shift) ? '!' : '1';
             case Input.Keys.NUM_2:
-                return (shift) ? '@' : '2';
+                return (shift) ? '"' : '2';
             case Input.Keys.NUM_3:
                 return (shift) ? '#' : '3';
             case Input.Keys.NUM_4:
@@ -232,13 +231,13 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
             case Input.Keys.NUM_5:
                 return (shift) ? '%' : '5';
             case Input.Keys.NUM_6:
-                return (shift) ? '^' : '6';
+                return (shift) ? '&' : '6';
             case Input.Keys.NUM_7:
-                return (shift) ? '&' : '7';
+                return (shift) ? '/' : '7';
             case Input.Keys.NUM_8:
-                return (shift) ? '*' : '8';
+                return (shift) ? '(' : '8';
             case Input.Keys.NUM_9:
-                return (shift) ? '(' : '9';
+                return (shift) ? ')' : '9';
             case Input.Keys.COLON:
                 return ':';
             case Input.Keys.STAR:
@@ -353,7 +352,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     /**
      * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 2.
      */
-    public static final char DOWN_ARROW = '\u2193'
+    public static final char DOWN_ARROW = '\u2193';
 
     /**
      * Not typically a dedicated key, but if numpadDirections is enabled, this will be sent by Numpad 5.
