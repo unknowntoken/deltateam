@@ -7,36 +7,57 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
+import java.awt.*;
+
 public class MainView extends ApplicationAdapter implements InputProcessor {
-    Stage stage;
-    TextField textField;
+
+    private Stage stage;
+
+    private ShapeRenderer border;
+
+    private TextField inputMessage;
     private TextArea message_field;
+
+    //private MessageHandler messageHandler;
+
+    public void incommingMessage (String message){
+
+        message_field.appendText(message);
+
+    }
 
     @Override
     public void create() {
         stage = new Stage();
 
+
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.fontColor = Color.BLACK;
         style.font = new BitmapFont();
 
-        message_field = new TextArea("iausgdi", style);
-        message_field.setWidth(400);
+        message_field = new TextArea("", style);
+        message_field.setWidth(585);
         message_field.setHeight(400);
-        message_field.setX(0);
-        message_field.setY(20);
+        message_field.setX(10);
+        message_field.setY(100);
+
+        border = new ShapeRenderer();
+        border.begin(ShapeRenderer.ShapeType.Filled);
+        border.setColor(Color.BLACK);
+        border.rect(message_field.getX()-1,message_field.getY()-1,message_field.getWidth()+1,message_field.getHeight()+1);
+        border.end();
 
 
+        inputMessage = new TextField("", style);
+        inputMessage.setPosition(5, 20);
+        inputMessage.setSize(585, 15);
 
-        textField = new TextField("ad", style);
-        textField.setPosition(70, 73);
-        textField.setSize(300, 14);
-
-        stage.addActor(textField);
+        stage.addActor(inputMessage);
         stage.addActor(message_field);
 
         Gdx.input.setInputProcessor(this);
@@ -45,8 +66,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         stage.draw();
         stage.act();
     }
@@ -61,8 +83,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
 
         if (keycode == Input.Keys.ENTER){
             message_field.appendText("\n");
+
         }else {
-            textField.appendText(Input.Keys.toString(keycode));
+            inputMessage.appendText(Input.Keys.toString(keycode));
             message_field.appendText(Input.Keys.toString(keycode));
         }
         return false;

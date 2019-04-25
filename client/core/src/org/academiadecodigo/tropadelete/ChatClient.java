@@ -1,17 +1,12 @@
 package org.academiadecodigo.tropadelete;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.academiadecodigo.tropadelete.views.MainView;
 
 public class ChatClient extends ApplicationAdapter implements InputProcessor {
 
-    ApplicationAdapter view;
+    private ApplicationAdapter view;
 
 
     @Override
