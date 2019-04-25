@@ -2,6 +2,7 @@ package org.academiadecodigo.tropadelete;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputProcessor;
+import org.academiadecodigo.tropadelete.views.LoginView;
 import org.academiadecodigo.tropadelete.views.MainView;
 
 public class ChatClient extends ApplicationAdapter implements InputProcessor {

@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
-import java.awt.*;
-
 public class MainView extends ApplicationAdapter implements InputProcessor {
 
     private Stage stage;
@@ -139,7 +137,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
 
         }else {
             inputMessage.appendText(Input.Keys.toString(keycode));
-            message_field.appendText(Input.Keys.toString(keycode));
+
         }
         return false;
     }
