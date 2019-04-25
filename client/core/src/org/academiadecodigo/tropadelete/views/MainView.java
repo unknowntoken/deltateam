@@ -133,7 +133,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     public boolean keyDown(int keycode) {
 
         if (keycode == Input.Keys.ENTER){
+            message_field.appendText(inputMessage.getText());
             message_field.appendText("\n");
+            inputMessage.setText("");
 
         }else {
             inputMessage.appendText(Input.Keys.toString(keycode));
