@@ -1,5 +1,7 @@
 package org.academiadecodigo.tropadelete.networking;
 
+import org.academiadecodigo.tropadelete.MessageHandler;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -41,6 +43,8 @@ public class ConnectionHandler {
     public void sendMessageToServer(String message) {
         if (!connectionToServer.isClosed()) {
             printWriter.println(message);
+            printWriter.flush();
+            System.out.println("sending to server: " + message);
         }
 
     }
