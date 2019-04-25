@@ -1,15 +1,22 @@
 package org.academiadecodigo.tropadelete;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
+import org.academiadecodigo.tropadelete.networking.MessageHandler;
+import org.academiadecodigo.tropadelete.networking.MessageHandlerImpl;
+
+import java.net.InetAddress;
+import java.net.URL;
 
 public class TestBox {
-    Stage stage;
 
-    public TestBox (){
+    private ConnectionHandler connectionHandler;
 
+    public TestBox() {
+        MessageHandler messageHandler = new MessageHandlerImpl();
+        connectionHandler = new ConnectionHandler(messageHandler,"localhost");
+        connectionHandler.start();
+
+        connectionHandler.sendMessageToServer("HELLO");
 
     }
 
