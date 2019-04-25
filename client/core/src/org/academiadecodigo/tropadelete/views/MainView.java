@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import org.academiadecodigo.tropadelete.MessageHandler;
+import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 
 import java.awt.*;
 
-public class MainView extends ApplicationAdapter implements InputProcessor {
+public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler {
 
     private Stage stage;
 
@@ -32,7 +34,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     private TextField inputMessage;
     private TextArea message_field;
 
-    //private MessageHandler messageHandler;
+    private ConnectionHandler server;
+
+    public void setConnectionHandler (ConnectionHandler server){
+        this.server = server;
+    }
+
 
     public void incommingMessage (String message){
 
@@ -121,10 +128,18 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     }
 
     @Override
+    public void handleIncomming(String message) {
+        message_field.appendText(message);
+
+    }
+    @Override
     public boolean keyDown(int keycode) {
 
         if (keycode == Input.Keys.ENTER){
             message_field.appendText("\n");
+            server.sendMessageToServer(inputMessage.getMessageText());
+            inputMessage.selectAll();
+            inputMessage.clearSelection();
 
         }else {
             inputMessage.appendText(Input.Keys.toString(keycode));
@@ -167,4 +182,5 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

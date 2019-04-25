@@ -1,5 +1,7 @@
 package org.academiadecodigo.tropadelete.networking;
 
+import org.academiadecodigo.tropadelete.MessageHandler;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
