@@ -9,13 +9,15 @@ import java.net.URL;
 
 public class TestBox {
 
-    private ConnectionHandler connectionHandler;
+    public static void main(String[] args) {
+        new TestBox();
+    }
 
     public TestBox() {
-        MessageHandler messageHandler = new MessageHandlerImpl();
-        connectionHandler = new ConnectionHandler(messageHandler,"localhost");
-        connectionHandler.start();
 
+        MessageHandler messageHandler = new MessageHandlerImpl();
+        ConnectionHandler connectionHandler = new ConnectionHandler(messageHandler);
+        connectionHandler.start();
         connectionHandler.sendMessageToServer("HELLO");
 
     }

@@ -1,32 +1,31 @@
 package org.academiadecodigo.tropadelete.networking;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URL;
-import java.util.Scanner;
 
 public class ConnectionHandler {
     private Socket connectionToServer;
     public static final int SERVER_PORT = 9999;
     private MessageHandler messageHandler;
-    private Scanner userInput;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
 
 
-    public ConnectionHandler(MessageHandler messageHandler, String url) {
+    public ConnectionHandler(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
         try {
-            connectionToServer = new Socket(url, SERVER_PORT);
+            connectionToServer = new Socket("192.168.1.102", SERVER_PORT);
             bufferedReader = new BufferedReader(new InputStreamReader(connectionToServer.getInputStream()));
             printWriter = new PrintWriter((new OutputStreamWriter(connectionToServer.getOutputStream())));
         } catch (IOException e) {
-            System.err.println("Error on creating a new Socket " + e.getMessage());
+            e.printStackTrace();
         }
+
 
     }
 
-    public void start (){
+    public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
