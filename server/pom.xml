@@ -8,5 +8,27 @@
     <artifactId>chatserver</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-c3p0</artifactId>
+        <version>5.3.6.Final</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version> 6.0.2.Final</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.1-api</artifactId>
+        <version>1.0.0.Final</version>
+    </dependency>
+
+    </dependencies>
+
 
 </project>
