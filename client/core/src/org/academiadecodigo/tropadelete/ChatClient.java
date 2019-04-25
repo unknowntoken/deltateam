@@ -17,7 +17,7 @@ public class ChatClient extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
-      view.render();
+        view.render();
 
     }
 
