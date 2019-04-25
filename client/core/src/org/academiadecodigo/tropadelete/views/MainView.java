@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,6 +23,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     private ShapeRenderer border;
     private ShapeRenderer messageFieldBackground;
 
+    private Texture background;
+    private Texture chatBox;
+
+    private Rectangle backgroundRec;
+    private Rectangle chatBoxRec;
+
     private TextField inputMessage;
     private TextArea message_field;
 
@@ -37,6 +44,21 @@ public class MainView extends ApplicationAdapter implements InputProcessor {
     public void create() {
 
         stage = new Stage();
+
+        background = new Texture("graphics/welcome_background-01_1920x1080.png");
+        chatBox = new Texture("graphics/chatbox-01_1200x675.png");
+
+        backgroundRec = new Rectangle();
+        backgroundRec.x = 0;
+        backgroundRec.y = 0;
+        backgroundRec.width = 1920;
+        backgroundRec.height = 1080;
+
+        chatBoxRec = new Rectangle();
+        chatBoxRec.x = 0;
+        chatBoxRec.y = 0;
+        chatBoxRec.width = 1200;
+        chatBoxRec.height = 675;
 
         TextField.TextFieldStyle messageStyle = new TextField.TextFieldStyle();
         messageStyle.fontColor = Color.BLACK;
