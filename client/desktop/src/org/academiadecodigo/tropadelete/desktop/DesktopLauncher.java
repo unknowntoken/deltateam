@@ -8,6 +8,10 @@ import org.academiadecodigo.tropadelete.views.MainView;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MainView(), config);
+
+		config.width = 600;
+		config.height = 600;
+
+		new LwjglApplication(new ChatClient(), config);
 	}
 }
