@@ -192,6 +192,7 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
         char c = fromCode(keycode, shift);
 
         if (keycode == ENTER) {
+
             chatClient.sendToServer(field.getText());
             field.setText("");
             return false;

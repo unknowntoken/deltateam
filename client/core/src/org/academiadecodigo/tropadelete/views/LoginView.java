@@ -278,7 +278,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
             System.out.println("exit collsion");
             return false;
         }
-        
+
         if (usernameRec.contains(screenX, screenY)) {
             System.out.println("Username collision");
             usernameFocus = true;
