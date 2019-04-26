@@ -228,8 +228,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private void populatePanels() {
 
-        users[0] = "Kevin";
-        users[1] = "Marcelo";
+        users[0] = "Diogo";
+        users[1] = "Kevin";
 
         System.out.println(channelListPanel.getHeight() / channelListPanel.getLinesShowing());
 
