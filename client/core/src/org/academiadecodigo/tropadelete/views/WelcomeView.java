@@ -112,7 +112,6 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
         if (registerButton.contains(screenX, screenY)) {
             System.out.println("REGISTER COLLISION!!");
             return false;
-
         }
 
         if (loginButton.contains(screenX, screenY)) {
