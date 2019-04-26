@@ -259,6 +259,39 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     }
 
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (exitRec.contains(screenX, screenY)) {
+            chatClient.changeToWelcomeView();
+            System.out.println("exit collsion");
+            return false;
+        }
+        System.out.println("NO collision");
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println("X:" + screenX + ", Y:" + screenY);
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
     @Override
     public boolean keyUp(int keycode) {
         return false;
@@ -484,37 +517,5 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
      * Esc or Escape key
      */
     public static final char ESCAPE = '\u2620';
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (exitRec.contains(screenX, screenY)) {
-            chatClient.changeToWelcomeView();
-            System.out.println("exit collsion");
-            return false;
-        }
-        System.out.println("NO collision");
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println("X:" + screenX + ", Y:" + screenY);
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 
 }
