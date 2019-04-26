@@ -30,7 +30,6 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
     private TextField password;
 
 
-
     private ChatClient chatClient;
 
     private Rectangle exitRec;
@@ -126,12 +125,13 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
         batch.draw(background, backgroundRect.x, backgroundRect.y);
         batch.draw(loginImage, loginImageRect.x, loginImageRect.y);
-        batch.draw(loginTex,loginRec.getX(),loginRec.getY()-210);
-        batch.draw(exitTex,exitRec.x,exitRec.y+220);
+        batch.draw(loginTex, loginRec.getX(), loginRec.getY() - 210);
+        batch.draw(exitTex, exitRec.x, exitRec.y + 220);
 
         batch.end();
 
     }
+
     @Override
     public void handleBadAuth() {
 
@@ -180,7 +180,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
             return false;
         }
 
-        if (exitRec.contains(screenX,screenY)){
+        if (exitRec.contains(screenX, screenY)) {
             chatClient.changeToWelcomeView();
             System.out.println("exit collsion");
             return false;
@@ -201,7 +201,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println("X:"+screenX + ", Y:" + screenY);
+        System.out.println("X:" + screenX + ", Y:" + screenY);
         return false;
     }
 

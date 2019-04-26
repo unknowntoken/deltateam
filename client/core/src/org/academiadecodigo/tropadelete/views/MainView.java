@@ -59,7 +59,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private List<Rectangle> channels;
     private ChatClient chatClient;
 
-    private ConnectionHandler server;
+    private Rectangle exitRec;
+    private Texture exitTex;
+
 
     public void setChatClient(ChatClient chatClient) {
         this.chatClient = chatClient;
@@ -72,11 +74,19 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage = new Stage();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        chatBox = new Texture("graphics/chat_view-01.png");
+        chatBox = new Texture("graphics/noButtonsViews/chat_view_no_buttons-01.png");
 
         openingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/miracle-harp.wav"));
         messageSentSoundEffect = Gdx.audio.newSound(Gdx.files.internal("soundEffects/outgoing-message.mp3"));
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/christmas-tale.mp3"));
+
+        exitTex = new Texture("graphics/buttons/register_close_button.png");
+
+        exitRec = new Rectangle();
+        exitRec.x = 1333;
+        exitRec.y = 240;
+        exitRec.height = 80;
+        exitRec.width = 60;
 
         backgroundRec = new Rectangle();
         backgroundRec.x = 0;
@@ -243,6 +253,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         batch.draw(background, backgroundRec.x, backgroundRec.y);
         batch.draw(chatBox, chatBoxRec.x, chatBoxRec.y);
+        batch.draw(exitTex,exitRec.x,exitRec.y+560);
 
         batch.end();
 
@@ -476,6 +487,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (exitRec.contains(screenX, screenY)) {
+            chatClient.changeToWelcomeView();
+            System.out.println("exit collsion");
+            return false;
+        }
+        System.out.println("NO collision");
         return false;
     }
 
@@ -491,6 +508,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println("X:" + screenX + ", Y:" + screenY);
         return false;
     }
 
