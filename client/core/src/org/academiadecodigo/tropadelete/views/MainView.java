@@ -3,9 +3,7 @@ package org.academiadecodigo.tropadelete.views;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,20 +12,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import org.academiadecodigo.tropadelete.MessageHandler;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
 
 public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler {
 
-
     private Stage stage;
+
+    private Skin uiSkin;
+
     private SpriteBatch batch;
 
     private ShapeRenderer border;
@@ -42,7 +44,11 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private TextField inputMessage;
     private TextArea message_field;
 
-    private ShapeRenderer userListPanel;
+    private Rectangle channelListPanel;
+    private TextArea userListPanel;
+
+    private String[] users;
+    private List<Rectangle> channels;
 
     private ConnectionHandler server;
 
@@ -51,7 +57,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     }
 
 
-    public void incommingMessage(String message) {
+    public void incommingMessage(String message, String channel) {
 
         message_field.appendText(message);
 
@@ -61,6 +67,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     public void create() {
 
         batch = new SpriteBatch();
+
         stage = new Stage();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
@@ -69,8 +76,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         backgroundRec = new Rectangle();
         backgroundRec.x = 0;
         backgroundRec.y = 0;
-        backgroundRec.width = 1920;
         backgroundRec.height = 1080;
+        backgroundRec.width = 1920;
 
         chatBoxRec = new Rectangle();
         chatBoxRec.x = 160;
@@ -92,7 +99,11 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         message_field.setPosition(530, 310);
         message_field.toFront();
 
-        userListPanel = new ShapeRenderer();
+        channelListPanel = new Rectangle();
+        userListPanel = new TextArea("", messageStyle);
+
+        users = new String[5];
+        channels = new ArrayList<>();
 
         border = new ShapeRenderer();
         messageFieldBackground = new ShapeRenderer();
@@ -103,6 +114,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         stage.addActor(inputMessage);
         stage.addActor(message_field);
+        stage.addActor(userListPanel);
+
+        populatePanels();
 
         Gdx.input.setInputProcessor(this);
 
@@ -113,31 +127,48 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        borderAndBackground(message_field);
-        borderAndBackground(inputMessage);
         imagesRender();
+
+        //channelListPanel.set(1450, 210, 290, 600);
+        userListPanel.setBounds(180, 210, 290, 600);
 
         stage.draw();
         stage.act();
 
-        userListPanel.begin(ShapeRenderer.ShapeType.Filled);
-        userListPanel.rect(1570, 205, 200, 665);
-        userListPanel.setColor(Color.WHITE);
-        userListPanel.end();
+
 
     }
 
-    private void borderAndBackground(Widget element) {
+    private void populatePanels() {
 
-        border.begin(ShapeRenderer.ShapeType.Filled);
-        border.setColor(Color.BLACK);
-        border.rect(element.getX() - 5, element.getY() - 5, element.getWidth() + 10, element.getHeight() + 10);
-        border.end();
+        users[0] = "Diogo";
+        users[1] = "Kevin";
+        users[2] = "Ze Diogo";
+        users[3] = "Marco";
+        users[4] = "Moreira";
 
-        border.begin(ShapeRenderer.ShapeType.Filled);
-        border.setColor(Color.WHITE);
-        border.rect(element.getX(), element.getY(), element.getWidth(), element.getHeight());
-        border.end();
+        channels.add(new Rectangle(channelListPanel.x,channelListPanel.y,channelListPanel.width,20));
+
+        for(String user: users){
+
+            userListPanel.appendText(user+"\n");
+
+        }
+
+        for(Rectangle channel: channels){
+
+            ShapeRenderer shape = new ShapeRenderer();
+            shape.begin(ShapeRenderer.ShapeType.Filled);
+            shape.rect(channel.x,channel.y,channel.width,channel.height);
+            shape.setColor(Color.BLACK);
+            shape.end();
+
+            channelListPanel.set(channel);
+
+
+
+
+        }
 
     }
 
@@ -160,6 +191,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     @Override
     public boolean keyDown(int keycode) {
 
+
+
         boolean alt =  Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
                 ctrl =  Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
                 shift = Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_RIGHT);
@@ -167,6 +200,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         char c = fromCode(keycode, shift);
 
         inputMessage.appendText(String.valueOf(c));
+
         if (Gdx.input.isKeyPressed(ENTER)){
             server.sendMessageToServer(inputMessage.getText());
             inputMessage.setText("");
