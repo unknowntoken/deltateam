@@ -29,9 +29,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
     private TextField username;
     private TextField password;
 
-    private Rectangle loginPanel;
 
-    private Rectangle loginButton;
 
     private ChatClient chatClient;
 
@@ -78,19 +76,12 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
         loginImageRect.width = 600;
         loginImageRect.height = 300;
 
-        loginButton = new Rectangle();
-        loginButton.x = loginImageRect.x;
-        loginButton.y = loginImageRect.y;
-        loginButton.width = loginImageRect.width;
-        loginButton.height = loginImageRect.height;
 
         username = textFieldAndStyle();
         username.setPosition(100, 100);
 
         password = textFieldAndStyle();
         password.setPosition(100, 150);
-
-        loginPanel = new Rectangle();
 
         stage.addActor(username);
         stage.addActor(password);

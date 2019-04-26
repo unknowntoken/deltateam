@@ -30,25 +30,18 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor,V
     private Rectangle registerPanel;
     private Rectangle registerButton;
 
-    @Override
-    public void handleJoinChannel(String channel) {
 
-    }
+    private ChatClient chatClient;
 
-    @Override
-    public void handlePrivmsg(String from, String message) {
 
-    }
+    private Rectangle exitRec;
+    private Texture exitTex;
 
-    @Override
-    public void handleIncomming(String message) {
+    private Rectangle loginRec;
+    private Texture loginTex;
 
-    }
 
-    @Override
-    public void setChatClient(ChatClient chatClient) {
 
-    }
 
     @Override
     public void create() {
@@ -56,7 +49,21 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor,V
         batch = new SpriteBatch();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        registerImage = new Texture("graphics/register_view-01.png");
+        registerImage = new Texture("graphics/noButtonsViews/register_view_no_buttons-01.png");
+        exitTex = new Texture("graphics/buttons/register_close_button.png");
+        loginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
+
+        loginRec = new Rectangle();
+        loginRec.x = 680;
+        loginRec.y = 620;
+        loginRec.setHeight(loginTex.getHeight());
+        loginRec.setWidth(loginTex.getWidth());
+
+        exitRec = new Rectangle();
+        exitRec.x = 1180;
+        exitRec.y = 390;
+        exitRec.height = 80;
+        exitRec.width = 60;;
 
         backgroundRect = new Rectangle();
         backgroundRect.x = 0;
@@ -118,11 +125,31 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor,V
 
         batch.draw(background, backgroundRect.x, backgroundRect.y);
         batch.draw(registerImage, registerImageRect.x, registerImageRect.y);
-
+        batch.draw(loginTex,loginRec.getX(),loginRec.getY()-210);
+        batch.draw(exitTex,exitRec.x,exitRec.y+220);
         batch.end();
 
     }
+    @Override
+    public void handleJoinChannel(String channel) {
 
+    }
+
+    @Override
+    public void handlePrivmsg(String from, String message) {
+
+    }
+
+    @Override
+    public void handleIncomming(String message) {
+
+    }
+
+    @Override
+    public void setChatClient(ChatClient chatClient) {
+        this.chatClient = chatClient;
+
+    }
     @Override
     public void dispose() {
         stage.dispose();
@@ -155,8 +182,17 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor,V
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (registerButton.contains(screenX, screenY)) {
-            System.out.println("COLLISION!!!!");
+        if (loginRec.contains(screenX, screenY)) {
+            System.out.println("Login collision!!!!");
+            chatClient.changeToMainView();
+
+            //SHOW IN PROGRESS
+            return false;
+        }
+
+        if (exitRec.contains(screenX,screenY)){
+            chatClient.changeToWelcomeView();
+            System.out.println("exit collsion");
             return false;
         }
         System.out.println("NO collision");
