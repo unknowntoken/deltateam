@@ -127,7 +127,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage = new Stage();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        chatBox = new Texture("graphics/noButtonsViews/chat_view_no_buttons-01.png");
+        chatBox = new Texture("graphics/chat_view-01.png");
 
         openingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/miracle-harp.wav"));
         messageSentSoundEffect = Gdx.audio.newSound(Gdx.files.internal("soundEffects/outgoing-message.mp3"));
