@@ -307,6 +307,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         if (keycode == ENTER) {
             chatClient.sendToServer(inputMessage.getText());
+            handleIncomming(inputMessage.getText());
             inputMessage.setText("");
             return false;
         }
