@@ -116,9 +116,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage.addActor(message_field);
         stage.addActor(userListPanel);
 
-        populatePanels();
 
         Gdx.input.setInputProcessor(this);
+
+        populatePanels();
 
     }
 
@@ -157,16 +158,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         for(Rectangle channel: channels){
 
-            ShapeRenderer shape = new ShapeRenderer();
-            shape.begin(ShapeRenderer.ShapeType.Filled);
-            shape.rect(channel.x,channel.y,channel.width,channel.height);
-            shape.setColor(Color.BLACK);
-            shape.end();
-
-            channelListPanel.set(channel);
-
-
-
+            Texture texture = new Texture("graphics/buttonColor.jpg");
 
         }
 
