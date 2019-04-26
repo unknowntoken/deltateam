@@ -211,10 +211,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         System.out.println("Message from " + from + " " + message);
 
     }
-    /**
-     * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
-     */
-    //public static final char BACKSPACE = '\u2280';
+
 
     @Override
     public void dispose() {

@@ -35,6 +35,8 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
 
     @Override
     public void handleIncomming(String message) {
+        view.handleIncomming(message);
+        /*
         if (!message.startsWith("/")) {
             System.out.println("what:" + message);
             view.handleIncomming(message);
@@ -46,7 +48,9 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
         if (split[0].startsWith("/PRIVMSG") && split.length >= 3) {
             view.handlePrivmsg(split[1], split[2]);
 
-        } else if (split[0].startsWith("/CHANNEL_JOINED") && split.length >= 3) {
+        } else
+
+            if (split[0].startsWith("/CHANNEL_JOINED") && split.length >= 3) {
             view.handleJoinChannel(split[1]);
 
         } else if (split[0].startsWith("/AUTH_OK")){
@@ -57,7 +61,7 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
 
         }else {
             view.handleIncomming(message);
-        }
+        }*/
     }
 
     public synchronized void changeToWelcomeView (){
