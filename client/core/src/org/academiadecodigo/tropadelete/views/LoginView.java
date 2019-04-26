@@ -247,7 +247,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
         if (keycode == ENTER) {
             chatClient.sendToServer(field.getText());
-            field.setText("");
+            //field.setText("");
             return false;
         }
         field.appendText(String.valueOf(c));

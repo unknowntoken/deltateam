@@ -185,7 +185,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         userListPanel = new TextArea("", messageStyle);
 
-        users = new String[5];
+        users = new String[2];
         channels = new ArrayList<>();
 
         border = new ShapeRenderer();
@@ -228,20 +228,13 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private void populatePanels() {
 
-        users[0] = "Diogo";
-        users[1] = "Kevin";
-        users[2] = "Ze Diogo";
-        users[3] = "Marco";
-        users[4] = "Moreira";
+        users[0] = "Kevin";
+        users[1] = "Marcelo";
 
         System.out.println(channelListPanel.getHeight() / channelListPanel.getLinesShowing());
 
         channels.add(new Rectangle(1500, 770, channelListPanel.getWidth(), 30));
         channels.add(new Rectangle(1500, 720, channelListPanel.getWidth(), 30));
-        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
-        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
-        channels.add(new Rectangle(1500, 620, channelListPanel.getWidth(), 30));
-        channels.add(new Rectangle(1500, 570, channelListPanel.getWidth(), 30));
 
         for (String user : users) {
 
