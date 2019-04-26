@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,11 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import org.academiadecodigo.tropadelete.ChatClient;
 import org.academiadecodigo.tropadelete.MessageHandler;
+import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
 
-public class MainView extends ApplicationAdapter implements InputProcessor, View  {
+public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler,View {
 
 
     /**
@@ -94,12 +97,20 @@ public class MainView extends ApplicationAdapter implements InputProcessor, View
     public static final char ESCAPE = '\u2620';
     private Stage stage;
     private SpriteBatch batch;
+
+    private Music openingMusic;
+    private Sound messageSentSoundEffect;
+    private Music backgroundMusic;
+
     private ShapeRenderer border;
     private ShapeRenderer messageFieldBackground;
+
     private Texture background;
     private Texture chatBox;
+
     private Rectangle backgroundRec;
     private Rectangle chatBoxRec;
+
     private TextField inputMessage;
     private TextArea message_field;
     private ShapeRenderer userListPanel;
@@ -117,6 +128,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, View
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
         chatBox = new Texture("graphics/chat_view-01.png");
+
+        openingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/miracle-harp.wav"));
+        messageSentSoundEffect = Gdx.audio.newSound(Gdx.files.internal("soundEffects/outgoing-message.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/christmas-tale.mp3"));
 
         backgroundRec = new Rectangle();
         backgroundRec.x = 0;
@@ -162,6 +177,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, View
 
     @Override
     public void render() {
+        openingMusic.play();
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -223,11 +241,10 @@ public class MainView extends ApplicationAdapter implements InputProcessor, View
         message_field.appendText(message);
 
     }
-
     @Override
     public boolean keyDown(int keycode) {
 
-        boolean alt = Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
+        boolean alt = Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
                 ctrl = Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
                 shift = Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_RIGHT);
 
@@ -377,7 +394,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, View
             case Input.Keys.SPACE:
                 return ' ';
             case Input.Keys.ENTER:
-                return ENTER;
+                return Input.Keys.ENTER;
             case Input.Keys.BACKSPACE:
                 return BACKSPACE; // also DEL
             case Input.Keys.GRAVE:

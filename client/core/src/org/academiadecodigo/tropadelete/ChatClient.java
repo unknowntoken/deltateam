@@ -59,7 +59,7 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
 
     public synchronized void changeToMainView (){
         view.dispose();
-        view = new MainView();
+        view = (View) new MainView();
         view.setChatClient(this);
         view.create();
     }
