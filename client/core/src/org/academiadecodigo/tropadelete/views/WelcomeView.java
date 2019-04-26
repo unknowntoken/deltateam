@@ -41,7 +41,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
         stage = new Stage();
         batch = new SpriteBatch();
 
-        background = new Texture("graphics/welcome_background-01_1920x1080.png");
+        background= new Texture("graphics/welcome_background_elsa-01_1920x1080.png");
         welcomeImage = new Texture("graphics/welcome_view-01.png");
         buttonLoginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
 
