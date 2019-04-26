@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 import org.academiadecodigo.tropadelete.views.LoginView;
 import org.academiadecodigo.tropadelete.views.MainView;
+import org.academiadecodigo.tropadelete.views.View;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,25 +13,25 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
 
     private Set<Channel> channels;
 
-    private MainView mainView;
-    private LoginView loginView;
+    private View view;
     private ConnectionHandler server;
+
 
     @Override
     public void create() {
         channels = new HashSet<>();
-        mainView = new MainView();
-        mainView.setChatClient(this);
+        view = new LoginView();
+        view.setChatClient(this);
         server = new ConnectionHandler(this);
 
-        mainView.create();
+        view.create();
         server.start();
-
     }
+
 
     @Override
     public void render() {
-        mainView.render();
+        view.render();
 
     }
 
@@ -38,23 +39,30 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
     public void handleIncomming(String message) {
         if (!message.startsWith("/")) {
             System.out.println("what:" +message);
-            mainView.handleIncomming(message);
+            view.handleIncomming(message);
             return;
         }
 
         String[] split = message.split(" ");
 
         if (split[0].startsWith("/PRIVMSG") && split.length >=3) {
-            mainView.handlePrivmsg(split[1], split[2]);
+            view.handlePrivmsg(split[1], split[2]);
 
         } else if (split[0].startsWith("/CHANNEL_JOINED") && split.length >= 3) {
-            mainView.handleJoinChannel(split[1]);
+            view.handleJoinChannel(split[1]);
 
         }else{
-            mainView.handleIncomming(message);
+            view.handleIncomming(message);
         }
     }
 
+
+    public synchronized void changeToMainView (){
+        view.dispose();
+        view = new MainView();
+        view.setChatClient(this);
+        view.create();
+    }
 
 
 
@@ -64,7 +72,7 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
 
     @Override
     public void dispose() {
-        mainView.dispose();
+        view.dispose();
     }
 
 

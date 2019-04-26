@@ -11,9 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import org.academiadecodigo.tropadelete.ChatClient;
 
 
-public class LoginView extends ApplicationAdapter implements InputProcessor {
+public class LoginView extends ApplicationAdapter implements InputProcessor, View {
 
     private Stage stage;
     private SpriteBatch batch;
@@ -30,6 +31,8 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
     private Rectangle loginPanel;
 
     private Rectangle loginButton;
+    private ChatClient chatClient;
+    private int count;
 
     @Override
     public void create() {
@@ -39,7 +42,6 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
         loginImage = new Texture("graphics/login_view-01.png");
-
 
 
         backgroundRect = new Rectangle();
@@ -62,10 +64,10 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
         loginButton.height = loginImageRect.height;
 
         username = textFieldAndStyle();
-        username.setPosition(100,100);
+        username.setPosition(100, 100);
 
         password = textFieldAndStyle();
-        password.setPosition(100,150);
+        password.setPosition(100, 150);
 
         loginPanel = new Rectangle();
 
@@ -96,6 +98,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
 
         stage.draw();
         stage.act();
+        chatClient.changeToMainView();
     }
 
     @Override
@@ -117,6 +120,21 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
     }
 
     @Override
+    public void handlePrivmsg(String from, String message) {
+
+    }
+
+    @Override
+    public void handleIncomming(String message) {
+
+    }
+
+    @Override
+    public void setChatClient(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
         return false;
     }
@@ -133,9 +151,9 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (loginButton.contains(screenX,screenY)){
+        if (loginButton.contains(screenX, screenY)) {
             System.out.println("COLLISION!!!!");
-        return false;
+            return false;
         }
         System.out.println("NO collision");
         return false;
@@ -160,4 +178,12 @@ public class LoginView extends ApplicationAdapter implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    @Override
+    public void handleJoinChannel(String channel) {
+
+    }
+
+
 }
+

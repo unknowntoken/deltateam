@@ -21,7 +21,7 @@ import org.academiadecodigo.tropadelete.MessageHandler;
 import static com.badlogic.gdx.Input.Keys.*;
 
 
-public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler {
+public class MainView extends ApplicationAdapter implements InputProcessor, View  {
 
 
     /**
