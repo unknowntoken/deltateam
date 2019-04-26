@@ -3,208 +3,161 @@ package org.academiadecodigo.tropadelete.views;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.academiadecodigo.tropadelete.ChatClient;
-import org.academiadecodigo.tropadelete.MessageHandler;
-import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
-
-public class MainView extends ApplicationAdapter implements InputProcessor, MessageHandler, View {
+public class RegisterView extends ApplicationAdapter implements InputProcessor, View {
 
 
     private Stage stage;
     private SpriteBatch batch;
-
-    private Music openingMusic;
-    private Sound messageSentSoundEffect;
-    private Music backgroundMusic;
-
-    private ShapeRenderer border;
-    private ShapeRenderer messageFieldBackground;
-
+    private Texture registerImage;
     private Texture background;
-    private Texture chatBox;
+    private Rectangle backgroundRect;
+    private Rectangle registerImageRect;
 
-    private Rectangle backgroundRec;
-    private Rectangle chatBoxRec;
+    private Rectangle usernameRec;
+    private TextField usernameField;
+    private Rectangle passwordRec;
+    private TextField passwordField;
 
-    private TextField inputMessage;
-    private TextArea message_field;
-
-    private Rectangle channelListPanel;
-    private TextArea userListPanel;
-
-    private String[] users;
-    private List<Rectangle> channels;
+    private Rectangle registerPanel;
+    private Rectangle registerButton;
     private ChatClient chatClient;
-
     private Rectangle exitRec;
     private Texture exitTex;
-
-
-    public void setChatClient(ChatClient chatClient) {
-        this.chatClient = chatClient;
-    }
+    private Rectangle loginRec;
+    private Texture loginTex;
+    private boolean usernameFocus = true;
 
     @Override
     public void create() {
-
-        batch = new SpriteBatch();
         stage = new Stage();
+        batch = new SpriteBatch();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        chatBox = new Texture("graphics/noButtonsViews/chat_view_no_buttons-01.png");
-
-        openingMusic = Gdx.audio.newMusic(Gdx.files.internal("music/miracle-harp.wav"));
-        messageSentSoundEffect = Gdx.audio.newSound(Gdx.files.internal("soundEffects/outgoing-message.mp3"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/christmas-tale.mp3"));
-
+        registerImage = new Texture("graphics/noButtonsViews/register_view_no_buttons-01.png");
         exitTex = new Texture("graphics/buttons/register_close_button.png");
+        loginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
+
+        loginRec = new Rectangle();
+        loginRec.x = 680;
+        loginRec.y = 620;
+        loginRec.setHeight(loginTex.getHeight());
+        loginRec.setWidth(loginTex.getWidth());
 
         exitRec = new Rectangle();
-        exitRec.x = 1333;
-        exitRec.y = 240;
+        exitRec.x = 1180;
+        exitRec.y = 390;
         exitRec.height = 80;
         exitRec.width = 60;
 
-        backgroundRec = new Rectangle();
-        backgroundRec.x = 0;
-        backgroundRec.y = 0;
-        backgroundRec.width = 1920;
-        backgroundRec.height = 1080;
 
-        chatBoxRec = new Rectangle();
-        chatBoxRec.x = 160;
-        chatBoxRec.y = 200;
-        chatBoxRec.width = 1600;
-        chatBoxRec.height = 675;
+        backgroundRect = new Rectangle();
+        backgroundRect.x = 0;
+        backgroundRect.y = 0;
+        backgroundRect.width = 1920;
+        backgroundRect.height = 1080;
 
-        TextField.TextFieldStyle messageStyle = new TextField.TextFieldStyle();
-        messageStyle.fontColor = Color.BLACK;
-        messageStyle.font = new BitmapFont();
+        registerImageRect = new Rectangle();
 
-        TextField.TextFieldStyle inputStyle = new TextField.TextFieldStyle();
-        inputStyle.fontColor = Color.BLACK;
-        inputStyle.font = new BitmapFont();
+        registerImageRect.x = 660;
+        registerImageRect.y = 390;
+        registerImageRect.width = 600;
+        registerImageRect.height = 300;
 
-        message_field = new TextArea("", messageStyle);
-        message_field.setWidth(860);
-        message_field.setHeight(460);
-        message_field.setPosition(530, 310);
-        message_field.toFront();
+        registerButton = new Rectangle();
+        registerButton.x = 690;
+        registerButton.y = 500;
+        registerButton.width = 200;
+        registerButton.height = 50;
 
-        channelListPanel = new Rectangle();
-        userListPanel = new TextArea("", messageStyle);
-
-        users = new String[5];
-        channels = new ArrayList<>();
-
-        border = new ShapeRenderer();
-        messageFieldBackground = new ShapeRenderer();
-
-        inputMessage = new TextField("", inputStyle);
-        inputMessage.setPosition(540, 220);
-        inputMessage.setSize(700, 50);
-
-        stage.addActor(inputMessage);
-        stage.addActor(message_field);
-        stage.addActor(userListPanel);
+        usernameField = textFieldAndStyle();
+        usernameField.setPosition(800, 566);
+        usernameRec = new Rectangle();
+        usernameRec.set(700, 482, 560, 40);
 
 
+        passwordField = textFieldAndStyle();
+        passwordField.setPosition(800, 498);
+        passwordRec = new Rectangle();
+        passwordRec.set(700, 548, 560, 50);
+
+        registerPanel = new Rectangle();
+
+        stage.addActor(usernameField);
+        stage.addActor(passwordField);
 
         Gdx.input.setInputProcessor(this);
+    }
 
-        populatePanels();
+    private TextField textFieldAndStyle() {
+
+        TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+        style.fontColor = Color.BLACK;
+        style.font = new BitmapFont();
+
+        return new TextField("", style);
 
     }
 
     @Override
     public void render() {
-        openingMusic.play();
-        backgroundMusic.play();
-        backgroundMusic.setLooping(true);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        imagesRender();
-
-        //channelListPanel.set(1450, 210, 290, 600);
-        userListPanel.setBounds(180, 210, 290, 600);
+        renderRegisterImages();
 
         stage.draw();
         stage.act();
+    }
 
+    private void renderRegisterImages() {
 
+        batch.begin();
+
+        batch.draw(background, backgroundRect.x, backgroundRect.y);
+        batch.draw(registerImage, registerImageRect.x, registerImageRect.y);
+        batch.draw(loginTex, loginRec.getX(), loginRec.getY() - 210);
+        batch.draw(exitTex, exitRec.x, exitRec.y + 220);
+        batch.end();
 
     }
 
-    private void populatePanels() {
-
-        users[0] = "Diogo";
-        users[1] = "Kevin";
-        users[2] = "Ze Diogo";
-        users[3] = "Marco";
-        users[4] = "Moreira";
-
-        channels.add(new Rectangle(channelListPanel.x,channelListPanel.y,channelListPanel.width,20));
-
-        for(String user: users){
-
-            userListPanel.appendText(user+"\n");
-
-        }
-
-        for(Rectangle channel: channels){
-
-            Texture texture = new Texture("graphics/buttonColor.jpg");
-
-        }
-
-    }
-
+    @Override
     public void handleJoinChannel(String channel) {
-        System.out.println("join channel " + channel);
 
     }
 
+    @Override
     public void handlePrivmsg(String from, String message) {
-        System.out.println("Message from " + from + " " + message);
 
     }
-    /**
-     * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
-     */
-    //public static final char BACKSPACE = '\u2280';
+
+    @Override
+    public void handleIncomming(String message) {
+
+    }
+
+    @Override
+    public void setChatClient(ChatClient chatClient) {
+        this.chatClient = chatClient;
+
+    }
 
     @Override
     public void dispose() {
-
-        batch.dispose();
-        background.dispose();
-        chatBox.dispose();
         stage.dispose();
-
     }
 
     @Override
@@ -218,53 +171,81 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     }
 
     @Override
-    public void handleIncomming(String message) {
-        System.out.println("hanndling incomming :" + message);
-        message_field.appendText(message);
-
-    }
-
-    @Override
     public boolean keyDown(int keycode) {
-
-        boolean alt =  Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
-                ctrl =  Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
+        boolean alt = Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
+                ctrl = Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
                 shift = Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_RIGHT);
 
+        TextField field;
+        if (usernameFocus) {
+            field = usernameField;
+        } else {
+            field = passwordField;
+        }
+
         if (keycode == BACKSPACE) {
-            inputMessage.setText(inputMessage.getText().substring(0, inputMessage.getText().length() - 1));
+            if (field.getText().length() != 0) {
+                field.setText(field.getText().substring(0, field.getText().length() - 1));
+            }
             return false;
         }
         char c = fromCode(keycode, shift);
 
         if (keycode == ENTER) {
-            chatClient.sendToServer(inputMessage.getText());
-            inputMessage.setText("");
+
+            chatClient.sendToServer(field.getText());
+            field.setText("");
             return false;
         }
-        inputMessage.appendText(String.valueOf(c));
+        field.appendText(String.valueOf(c));
 
         return false;
     }
 
-    private void imagesRender() {
+    /**
+     * Enter key, also called Return key. Used to start a new line of text or confirm entries in forms.
+     */
+    //public static final char ENTER = '\u21B5';
 
-        batch.begin();
-
-        batch.draw(background, backgroundRec.x, backgroundRec.y);
-        batch.draw(chatBox, chatBoxRec.x, chatBoxRec.y);
-        batch.draw(exitTex,exitRec.x,exitRec.y+560);
-
-        batch.end();
-
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
     }
+    /**
+     * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
+     */
+    //public static final char BACKSPACE = '\u2280';
 
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (loginRec.contains(screenX, screenY)) {
+            System.out.println("Login collision!!!!");
+            chatClient.changeToMainView();
+
+            //SHOW IN PROGRESS
+            return false;
+        }
+
         if (exitRec.contains(screenX, screenY)) {
             chatClient.changeToWelcomeView();
             System.out.println("exit collsion");
+            return false;
+        }
+
+        if (usernameRec.contains(screenX, screenY)) {
+            System.out.println("Username collision");
+            usernameFocus = true;
+            return false;
+        }
+
+        if (passwordRec.contains(screenX, screenY)) {
+            System.out.println("Password collision");
+            usernameFocus = false;
             return false;
         }
         System.out.println("NO collision");
@@ -283,7 +264,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println("X:" + screenX + ", Y:" + screenY);
+        System.out.println("X,Y:" + screenX + "," +screenY);
         return false;
     }
 
@@ -292,17 +273,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         return false;
     }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    public char fromCode(int keycode, boolean shift){
+    public char fromCode(int keycode, boolean shift) {
         switch (keycode) {
             case Input.Keys.HOME:
                 return HOME;
@@ -405,7 +376,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
             case Input.Keys.COMMA:
                 return (shift) ? '<' : ',';
             case Input.Keys.PERIOD:
-                return (shift) ? '>' :'.';
+                return (shift) ? '>' : '.';
             case Input.Keys.TAB:
                 return TAB;
             case Input.Keys.SPACE:
@@ -419,19 +390,19 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
             case Input.Keys.MINUS:
                 return (shift) ? '_' : '-';
             case Input.Keys.EQUALS:
-                return (shift) ? '+' :'=';
+                return (shift) ? '+' : '=';
             case Input.Keys.LEFT_BRACKET:
-                return (shift) ? '{' :'[';
+                return (shift) ? '{' : '[';
             case Input.Keys.RIGHT_BRACKET:
-                return (shift) ? '}' :']';
+                return (shift) ? '}' : ']';
             case Input.Keys.BACKSLASH:
-                return (shift) ? '|' :'\\';
+                return (shift) ? '|' : '\\';
             case Input.Keys.SEMICOLON:
-                return (shift) ? ':' :';';
+                return (shift) ? ':' : ';';
             case Input.Keys.APOSTROPHE:
-                return (shift) ? '"' :'\'';
+                return (shift) ? '"' : '\'';
             case Input.Keys.SLASH:
-                return (shift) ? '?' :'/';
+                return (shift) ? '?' : '/';
             case Input.Keys.AT:
                 return '@';
             case Input.Keys.PAGE_UP:
@@ -459,57 +430,47 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
      * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 2.
      */
     public static final char DOWN_ARROW = '\u2193';
-
     /**
      * Not typically a dedicated key, but if numpadDirections is enabled, this will be sent by Numpad 5.
      */
     public static final char CENTER_ARROW = '\u21BA';
-
-    /**
-     * Enter key, also called Return key. Used to start a new line of text or confirm entries in forms.
-     */
-    //public static final char ENTER = '\u21B5';
     /**
      * Tab key. Used for entering horizontal spacing, such as indentation, but also often to cycle between menu items.
      */
     public static final char TAB = '\u21B9';
     /**
-     * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
-     */
-    //public static final char BACKSPACE = '\u2280';
-    /**
      * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
-     *
+     * <p>
      * Not present on some laptop keyboards and some (all?) Mac keyboards.
      */
     public static final char FORWARD_DELETE = '\u2281';
     /**
      * Insert key. Not recommended for common use because it could affect other application behavior.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char INSERT = '\u2208';
     /**
      * Page Down key.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char PAGE_DOWN = '\u22A4';
     /**
      * Page Up key.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char PAGE_UP = '\u22A5';
     /**
      * Home key (commonly used for moving a cursor to start of line).
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char HOME = '\u2302';
     /**
      * End key (commonly used for moving a cursor to end of line).
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char END = '\u2623';
@@ -517,5 +478,4 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
      * Esc or Escape key
      */
     public static final char ESCAPE = '\u2620';
-
 }
