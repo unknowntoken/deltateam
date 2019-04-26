@@ -422,7 +422,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     /**
      * Enter key, also called Return key. Used to start a new line of text or confirm entries in forms.
      */
-    public static final char ENTER = '\u21B5';
+    //public static final char ENTER = '\u21B5';
     /**
      * Tab key. Used for entering horizontal spacing, such as indentation, but also often to cycle between menu items.
      */
@@ -430,7 +430,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     /**
      * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
      */
-    public static final char BACKSPACE = '\u2280';
+    //public static final char BACKSPACE = '\u2280';
     /**
      * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
      *
