@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.academiadecodigo.tropadelete.ChatClient;
 import org.academiadecodigo.tropadelete.MessageHandler;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
@@ -119,6 +120,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage.addActor(inputMessage);
         stage.addActor(message_field);
         stage.addActor(userListPanel);
+
 
 
         Gdx.input.setInputProcessor(this);

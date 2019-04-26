@@ -11,8 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import org.academiadecodigo.tropadelete.ChatClient;
 
-public class RegisterView extends ApplicationAdapter implements InputProcessor {
+public class RegisterView extends ApplicationAdapter implements InputProcessor,View {
 
     private Stage stage;
     private SpriteBatch batch;
@@ -28,6 +29,26 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor {
 
     private Rectangle registerPanel;
     private Rectangle registerButton;
+
+    @Override
+    public void handleJoinChannel(String channel) {
+
+    }
+
+    @Override
+    public void handlePrivmsg(String from, String message) {
+
+    }
+
+    @Override
+    public void handleIncomming(String message) {
+
+    }
+
+    @Override
+    public void setChatClient(ChatClient chatClient) {
+
+    }
 
     @Override
     public void create() {
@@ -105,6 +126,16 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    @Override
+    public void handleBadAuth() {
+
+    }
+
+    @Override
+    public void handleNameAlreadyInUse() {
+
     }
 
     @Override

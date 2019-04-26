@@ -98,7 +98,6 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
         stage.draw();
         stage.act();
-        chatClient.changeToMainView();
     }
 
     @Override
