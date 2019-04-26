@@ -49,7 +49,13 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
         } else if (split[0].startsWith("/CHANNEL_JOINED") && split.length >= 3) {
             view.handleJoinChannel(split[1]);
 
-        } else {
+        } else if (split[0].startsWith("/AUTH_OK")){
+            changeToMainView();
+
+        }else if (split[0].startsWith("/AUTH_NOK")){
+            view.handleBadAuth();
+
+        }else {
             view.handleIncomming(message);
         }
     }

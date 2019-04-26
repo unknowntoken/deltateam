@@ -45,6 +45,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private Texture background;
     private Texture chatBox;
+    private Texture buttonTexture;
+    private TextField channelField;
 
     private Rectangle backgroundRec;
     private Rectangle chatBoxRec;
@@ -52,11 +54,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private TextField inputMessage;
     private TextArea message_field;
 
-    private Rectangle channelListPanel;
+    private TextArea channelListPanel;
     private TextArea userListPanel;
 
     private String[] users;
     private List<Rectangle> channels;
+    private TextField channelName;
     private ChatClient chatClient;
 
     private Rectangle exitRec;
@@ -104,6 +107,16 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         messageStyle.fontColor = Color.BLACK;
         messageStyle.font = new BitmapFont();
 
+        channelField = new TextField("",messageStyle);
+        channelField.setX(20);
+        channelField.setY(-20);
+        System.out.println("Width:"+channelField.getWidth());
+        System.out.println("Height:" +channelField.getHeight());
+        buttonTexture = new Texture("graphics/buttonColor.jpg");
+
+        //buttonSprite = new Sprite(buttonTexture,(int)channelField.getWidth(),(int)channelField.getHeight());
+
+
         TextField.TextFieldStyle inputStyle = new TextField.TextFieldStyle();
         inputStyle.fontColor = Color.BLACK;
         inputStyle.font = new BitmapFont();
@@ -114,7 +127,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         message_field.setPosition(530, 310);
         message_field.toFront();
 
-        channelListPanel = new Rectangle();
+        ShapeRenderer border = new ShapeRenderer();
+
+        channelListPanel = new TextArea("", messageStyle);
+        channelListPanel.setBounds(1500,250,200,550);
+        channelListPanel.setPrefRows(4);
+
         userListPanel = new TextArea("", messageStyle);
 
         users = new String[5];
@@ -132,7 +150,6 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         stage.addActor(userListPanel);
 
 
-
         Gdx.input.setInputProcessor(this);
 
         populatePanels();
@@ -144,6 +161,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         openingMusic.play();
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -167,17 +185,18 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         users[3] = "Marco";
         users[4] = "Moreira";
 
-        channels.add(new Rectangle(channelListPanel.x,channelListPanel.y,channelListPanel.width,20));
+        System.out.println(channelListPanel.getHeight()/channelListPanel.getLinesShowing());
 
-        for(String user: users){
+        channels.add(new Rectangle(1500, 770, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 720, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 620, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 570, channelListPanel.getWidth(), 30));
 
-            userListPanel.appendText(user+"\n");
+        for (String user : users) {
 
-        }
-
-        for(Rectangle channel: channels){
-
-            Texture texture = new Texture("graphics/buttonColor.jpg");
+            userListPanel.appendText(user + "\n");
 
         }
 
@@ -203,6 +222,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         batch.dispose();
         background.dispose();
         chatBox.dispose();
+        buttonTexture.dispose();
         stage.dispose();
 
     }
@@ -250,10 +270,17 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private void imagesRender() {
 
         batch.begin();
+        batch.draw(buttonTexture,channelField.getX(),channelField.getY(),channelField.getWidth(),channelField.getHeight());
 
         batch.draw(background, backgroundRec.x, backgroundRec.y);
         batch.draw(chatBox, chatBoxRec.x, chatBoxRec.y);
         batch.draw(exitTex,exitRec.x,exitRec.y+560);
+
+        for (Rectangle channel : channels) {
+
+            batch.draw(buttonTexture, channel.x, channel.y,channel.width,channel.height);
+
+        }
 
         batch.end();
 
@@ -476,7 +503,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     /**
      * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
      */
-    //public static final char BACKSPACE = '\u2280';
+   // public static final char BACKSPACE = '\u2280';
     /**
      * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
      *
@@ -517,5 +544,6 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
      * Esc or Escape key
      */
     public static final char ESCAPE = '\u2620';
+
 
 }

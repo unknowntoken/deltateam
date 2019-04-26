@@ -19,18 +19,80 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class RegisterView extends ApplicationAdapter implements InputProcessor, View {
 
 
+    /**
+     * Left arrow key. If numpadDirections is enabled, this will also be sent by Numpad 4.
+     */
+    public static final char LEFT_ARROW = '\u2190';
+    /**
+     * Up arrow key. If numpadDirections is enabled, this will also be sent by Numpad 8.
+     */
+    public static final char UP_ARROW = '\u2191';
+    /**
+     * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 6.
+     */
+    public static final char RIGHT_ARROW = '\u2192';
+    /**
+     * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 2.
+     */
+    public static final char DOWN_ARROW = '\u2193';
+    /**
+     * Not typically a dedicated key, but if numpadDirections is enabled, this will be sent by Numpad 5.
+     */
+    public static final char CENTER_ARROW = '\u21BA';
+    /**
+     * Tab key. Used for entering horizontal spacing, such as indentation, but also often to cycle between menu items.
+     */
+    public static final char TAB = '\u21B9';
+    /**
+     * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
+     * <p>
+     * Not present on some laptop keyboards and some (all?) Mac keyboards.
+     */
+    public static final char FORWARD_DELETE = '\u2281';
+    /**
+     * Insert key. Not recommended for common use because it could affect other application behavior.
+     * <p>
+     * Not present on some laptop keyboards.
+     */
+    public static final char INSERT = '\u2208';
+    /**
+     * Page Down key.
+     * <p>
+     * Not present on some laptop keyboards.
+     */
+    public static final char PAGE_DOWN = '\u22A4';
+    /**
+     * Page Up key.
+     * <p>
+     * Not present on some laptop keyboards.
+     */
+    public static final char PAGE_UP = '\u22A5';
+    /**
+     * Home key (commonly used for moving a cursor to start of line).
+     * <p>
+     * Not present on some laptop keyboards.
+     */
+    public static final char HOME = '\u2302';
+    /**
+     * End key (commonly used for moving a cursor to end of line).
+     * <p>
+     * Not present on some laptop keyboards.
+     */
+    public static final char END = '\u2623';
+    /**
+     * Esc or Escape key
+     */
+    public static final char ESCAPE = '\u2620';
     private Stage stage;
     private SpriteBatch batch;
     private Texture registerImage;
     private Texture background;
     private Rectangle backgroundRect;
     private Rectangle registerImageRect;
-
     private Rectangle usernameRec;
     private TextField usernameField;
     private Rectangle passwordRec;
     private TextField passwordField;
-
     private Rectangle registerPanel;
     private Rectangle registerButton;
     private ChatClient chatClient;
@@ -39,6 +101,7 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
     private Rectangle loginRec;
     private Texture loginTex;
     private boolean usernameFocus = true;
+    private TextField errorField;
 
     @Override
     public void create() {
@@ -49,6 +112,7 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
         registerImage = new Texture("graphics/noButtonsViews/register_view_no_buttons-01.png");
         exitTex = new Texture("graphics/buttons/register_close_button.png");
         loginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
+
 
         loginRec = new Rectangle();
         loginRec.x = 680;
@@ -61,6 +125,7 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
         exitRec.y = 390;
         exitRec.height = 80;
         exitRec.width = 60;
+
 
 
         backgroundRect = new Rectangle();
@@ -87,6 +152,9 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
         usernameRec = new Rectangle();
         usernameRec.set(700, 482, 560, 40);
 
+        errorField = textFieldAndStyle();
+        errorField.setPosition(400,500);
+        errorField.setText("BAD LOG INFORMATION");
 
         passwordField = textFieldAndStyle();
         passwordField.setPosition(800, 498);
@@ -193,8 +261,10 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
 
         if (keycode == ENTER) {
 
+            String send = "/NEWUSER " + usernameField.getText() + " " + passwordField.getText();
             chatClient.sendToServer(field.getText());
-            field.setText("");
+            usernameField.setText("");
+            passwordField.setText("");
             return false;
         }
         field.appendText(String.valueOf(c));
@@ -206,16 +276,15 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
      * Enter key, also called Return key. Used to start a new line of text or confirm entries in forms.
      */
     //public static final char ENTER = '\u21B5';
-
     @Override
     public boolean keyUp(int keycode) {
         return false;
     }
+
     /**
      * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
      */
     //public static final char BACKSPACE = '\u2280';
-
     @Override
     public boolean keyTyped(char character) {
         return false;
@@ -264,7 +333,7 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println("X,Y:" + screenX + "," +screenY);
+        System.out.println("X,Y:" + screenX + "," + screenY);
         return false;
     }
 
@@ -413,69 +482,4 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
 
         return '\0';
     }
-
-    /**
-     * Left arrow key. If numpadDirections is enabled, this will also be sent by Numpad 4.
-     */
-    public static final char LEFT_ARROW = '\u2190';
-    /**
-     * Up arrow key. If numpadDirections is enabled, this will also be sent by Numpad 8.
-     */
-    public static final char UP_ARROW = '\u2191';
-    /**
-     * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 6.
-     */
-    public static final char RIGHT_ARROW = '\u2192';
-    /**
-     * Down arrow key. If numpadDirections is enabled, this will also be sent by Numpad 2.
-     */
-    public static final char DOWN_ARROW = '\u2193';
-    /**
-     * Not typically a dedicated key, but if numpadDirections is enabled, this will be sent by Numpad 5.
-     */
-    public static final char CENTER_ARROW = '\u21BA';
-    /**
-     * Tab key. Used for entering horizontal spacing, such as indentation, but also often to cycle between menu items.
-     */
-    public static final char TAB = '\u21B9';
-    /**
-     * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
-     * <p>
-     * Not present on some laptop keyboards and some (all?) Mac keyboards.
-     */
-    public static final char FORWARD_DELETE = '\u2281';
-    /**
-     * Insert key. Not recommended for common use because it could affect other application behavior.
-     * <p>
-     * Not present on some laptop keyboards.
-     */
-    public static final char INSERT = '\u2208';
-    /**
-     * Page Down key.
-     * <p>
-     * Not present on some laptop keyboards.
-     */
-    public static final char PAGE_DOWN = '\u22A4';
-    /**
-     * Page Up key.
-     * <p>
-     * Not present on some laptop keyboards.
-     */
-    public static final char PAGE_UP = '\u22A5';
-    /**
-     * Home key (commonly used for moving a cursor to start of line).
-     * <p>
-     * Not present on some laptop keyboards.
-     */
-    public static final char HOME = '\u2302';
-    /**
-     * End key (commonly used for moving a cursor to end of line).
-     * <p>
-     * Not present on some laptop keyboards.
-     */
-    public static final char END = '\u2623';
-    /**
-     * Esc or Escape key
-     */
-    public static final char ESCAPE = '\u2620';
 }
