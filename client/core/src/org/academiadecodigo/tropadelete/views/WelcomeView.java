@@ -24,6 +24,11 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
     private Rectangle loginButton;
     private ChatClient chatClient;
 
+    private Texture buttonLoginTex;
+    private Rectangle buttonLoginRec;
+    private float loginX = 967;
+    private float loginY = 545;
+
 
     @Override
     public void setChatClient(ChatClient chatClient) {
@@ -38,6 +43,11 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
         welcomeImage = new Texture("graphics/welcome_view-01.png");
+        buttonLoginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
+
+        buttonLoginRec = new Rectangle();
+        buttonLoginRec.set(loginX, loginY, buttonLoginTex.getWidth(), buttonLoginTex.getHeight());
+
 
         backgroundRect = new Rectangle();
         backgroundRect.x = 0;
@@ -53,7 +63,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
 
         registerButton = new Rectangle();
         registerButton.x = 802;
-        registerButton.y = 545;
+        registerButton.y = 580;
         registerButton.width = 150;
         registerButton.height = 50;
 
@@ -62,6 +72,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
         loginButton.y = 545;
         loginButton.width = 150;
         loginButton.height = 50;
+
 
         Gdx.input.setInputProcessor(this);
     }
@@ -97,9 +108,10 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
     }
 
     private void renderWelcomeImages() {
-
+        buttonLoginRec.set(loginX, loginY + 50, buttonLoginTex.getWidth(), buttonLoginTex.getHeight());
         batch.begin();
 
+        batch.draw(buttonLoginTex, loginX, loginY);
         batch.draw(background, backgroundRect.x, backgroundRect.y);
         batch.draw(welcomeImage, welcomeImageRect.x, welcomeImageRect.y);
 
@@ -132,7 +144,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
 
         }
 
-        if (loginButton.contains(screenX, screenY)) {
+        if (buttonLoginRec.contains(screenX, screenY)) {
             System.out.println("LOGIN COLLISION");
             chatClient.changeToLoginView();
             return false;
@@ -156,6 +168,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println("X:" + screenX + ", Y:" + screenY);
         return false;
     }
 
@@ -163,6 +176,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
     public boolean scrolled(int amount) {
         return false;
     }
+
     @Override
     public void handleJoinChannel(String channel) {
 

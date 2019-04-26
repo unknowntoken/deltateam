@@ -23,6 +23,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
     private Texture background;
 
     private Rectangle backgroundRect;
+
     private Rectangle loginImageRect;
 
     private TextField username;
@@ -31,8 +32,14 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
     private Rectangle loginPanel;
 
     private Rectangle loginButton;
+
     private ChatClient chatClient;
-    private int count;
+
+    private Rectangle exitRec;
+    private Texture exitTex;
+
+    private Rectangle loginRec;
+    private Texture loginTex;
 
     @Override
     public void create() {
@@ -41,7 +48,21 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
         batch = new SpriteBatch();
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
-        loginImage = new Texture("graphics/login_view-01.png");
+        loginImage = new Texture("graphics/noButtonsViews/login_view_no_buttons-01.png");
+        exitTex = new Texture("graphics/buttons/register_close_button.png");
+        loginTex = new Texture("graphics/buttons/welcome_login_button-03.png");
+
+        loginRec = new Rectangle();
+        loginRec.x = 680;
+        loginRec.y = 620;
+        loginRec.setHeight(loginTex.getHeight());
+        loginRec.setWidth(loginTex.getWidth());
+
+        exitRec = new Rectangle();
+        exitRec.x = 1180;
+        exitRec.y = 390;
+        exitRec.height = 80;
+        exitRec.width = 60;
 
 
         backgroundRect = new Rectangle();
@@ -107,15 +128,6 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
     }
 
-    @Override
-    public void handleBadAuth() {
-
-    }
-
-    @Override
-    public void handleNameAlreadyInUse() {
-
-    }
 
     private void renderLoginImages() {
 
@@ -123,8 +135,19 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
         batch.draw(background, backgroundRect.x, backgroundRect.y);
         batch.draw(loginImage, loginImageRect.x, loginImageRect.y);
+        batch.draw(loginTex,loginRec.getX(),loginRec.getY()-210);
+        batch.draw(exitTex,exitRec.x,exitRec.y+220);
 
         batch.end();
+
+    }
+    @Override
+    public void handleBadAuth() {
+
+    }
+
+    @Override
+    public void handleNameAlreadyInUse() {
 
     }
 
@@ -160,8 +183,15 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (loginButton.contains(screenX, screenY)) {
-            System.out.println("COLLISION!!!!");
+        if (loginRec.contains(screenX, screenY)) {
+            System.out.println("Login collision!!!!");
+            chatClient.changeToMainView();
+            return false;
+        }
+
+        if (exitRec.contains(screenX,screenY)){
+            chatClient.changeToWelcomeView();
+            System.out.println("exit collsion");
             return false;
         }
         System.out.println("NO collision");
@@ -180,6 +210,7 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println("X:"+screenX + ", Y:" + screenY);
         return false;
     }
 

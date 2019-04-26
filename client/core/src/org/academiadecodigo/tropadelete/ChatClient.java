@@ -18,7 +18,7 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
     @Override
     public void create() {
         channels = new HashSet<>();
-        view = new MainView();
+        view = new WelcomeView();
         view.setChatClient(this);
         server = new ConnectionHandler(this);
 
