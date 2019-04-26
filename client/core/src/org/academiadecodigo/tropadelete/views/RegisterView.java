@@ -267,7 +267,11 @@ public class RegisterView extends ApplicationAdapter implements InputProcessor, 
             passwordField.setText("");
             return false;
         }
-        field.appendText(String.valueOf(c));
+        if (usernameFocus) {
+            field.appendText(String.valueOf(c));
+        }else{
+            field.appendText("*");
+        }
 
         return false;
     }

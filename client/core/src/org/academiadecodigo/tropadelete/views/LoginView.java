@@ -250,8 +250,11 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
             //field.setText("");
             return false;
         }
-        field.appendText(String.valueOf(c));
-
+        if (usernameFocus) {
+            field.appendText(String.valueOf(c));
+        }else{
+            field.appendText("*");
+        }
         return false;
     }
 
