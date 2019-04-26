@@ -6,16 +6,17 @@ import com.badlogic.gdx.InputProcessor;
 import org.academiadecodigo.tropadelete.networking.ConnectionHandler;
 import org.academiadecodigo.tropadelete.views.LoginView;
 import org.academiadecodigo.tropadelete.views.MainView;
+import org.academiadecodigo.tropadelete.views.WelcomeView;
 
 public class ChatClient extends ApplicationAdapter implements InputProcessor {
 
     private LoginView login;
-    private LoginView view;
+    private WelcomeView view;
     private ConnectionHandler server;
 
     @Override
     public void create() {
-        view = new LoginView();
+        view = new WelcomeView();
 
         //server = new ConnectionHandler(new MainView());
         //view.setConnectionHandler(server);
