@@ -1,16 +1,15 @@
 package org.academiadecodigo.tropadelete.views;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import org.academiadecodigo.tropadelete.ChatClient;
 
-public class WelcomeView extends ApplicationAdapter implements InputProcessor {
+public class WelcomeView extends ApplicationAdapter implements InputProcessor, View {
 
     private Stage stage;
     private SpriteBatch batch;
@@ -23,6 +22,13 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
 
     private Rectangle registerButton;
     private Rectangle loginButton;
+    private ChatClient chatClient;
+
+
+    @Override
+    public void setChatClient(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
 
     @Override
     public void create() {
@@ -80,6 +86,16 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
 
     }
 
+    @Override
+    public void handleBadAuth() {
+
+    }
+
+    @Override
+    public void handleNameAlreadyInUse() {
+
+    }
+
     private void renderWelcomeImages() {
 
         batch.begin();
@@ -111,12 +127,14 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
 
         if (registerButton.contains(screenX, screenY)) {
             System.out.println("REGISTER COLLISION!!");
+            chatClient.changeToRegisterView();
             return false;
 
         }
 
         if (loginButton.contains(screenX, screenY)) {
             System.out.println("LOGIN COLLISION");
+            chatClient.changeToLoginView();
             return false;
         }
 
@@ -124,6 +142,7 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
         return false;
 
     }
+
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -143,5 +162,19 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+    @Override
+    public void handleJoinChannel(String channel) {
+
+    }
+
+    @Override
+    public void handlePrivmsg(String from, String message) {
+
+    }
+
+    @Override
+    public void handleIncomming(String message) {
+
     }
 }

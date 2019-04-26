@@ -10,5 +10,7 @@ public interface View {
     void create ();
     void render ();
     void dispose ();
+    void handleBadAuth();
+    void handleNameAlreadyInUse ();
 
 }

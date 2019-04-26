@@ -236,6 +236,16 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     }
 
     @Override
+    public void handleBadAuth() {
+
+    }
+
+    @Override
+    public void handleNameAlreadyInUse() {
+
+    }
+
+    @Override
     public void handleIncomming(String message) {
         System.out.println("hanndling incomming :" + message);
         message_field.appendText(message);

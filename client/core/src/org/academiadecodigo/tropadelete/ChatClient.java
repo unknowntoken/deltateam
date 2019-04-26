@@ -56,7 +56,12 @@ public class ChatClient extends ApplicationAdapter implements MessageHandler {
         }
     }
 
+    public synchronized void changeToLoginView (){
 
+    }
+    public synchronized void changeToRegisterView (){
+
+    }
     public synchronized void changeToMainView (){
         view.dispose();
         view = (View) new MainView();

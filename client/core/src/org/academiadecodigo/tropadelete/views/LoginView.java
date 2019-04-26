@@ -108,6 +108,16 @@ public class LoginView extends ApplicationAdapter implements InputProcessor, Vie
 
     }
 
+    @Override
+    public void handleBadAuth() {
+
+    }
+
+    @Override
+    public void handleNameAlreadyInUse() {
+
+    }
+
     private void renderLoginImages() {
 
         batch.begin();
