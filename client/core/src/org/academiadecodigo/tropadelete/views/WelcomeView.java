@@ -141,7 +141,6 @@ public class WelcomeView extends ApplicationAdapter implements InputProcessor, V
             System.out.println("REGISTER COLLISION!!");
             chatClient.changeToRegisterView();
             return false;
-
         }
 
         if (buttonLoginRec.contains(screenX, screenY)) {
