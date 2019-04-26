@@ -60,6 +60,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private String[] users;
     private List<Rectangle> channels;
+    private TextField channelName;
     private ChatClient chatClient;
 
     private ConnectionHandler server;
