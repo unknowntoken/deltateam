@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -44,6 +45,9 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     private Texture background;
     private Texture chatBox;
+    private Texture buttonTexture;
+    private Sprite buttonSprite;
+    private TextField channelField;
 
     private Rectangle backgroundRec;
     private Rectangle chatBoxRec;
@@ -51,7 +55,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private TextField inputMessage;
     private TextArea message_field;
 
-    private Rectangle channelListPanel;
+    private TextArea channelListPanel;
     private TextArea userListPanel;
 
     private String[] users;
@@ -69,6 +73,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
         batch = new SpriteBatch();
         stage = new Stage();
+
 
         background = new Texture("graphics/welcome_background-01_1920x1080.png");
         chatBox = new Texture("graphics/chat_view-01.png");
@@ -93,6 +98,16 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         messageStyle.fontColor = Color.BLACK;
         messageStyle.font = new BitmapFont();
 
+        channelField = new TextField("",messageStyle);
+        channelField.setX(20);
+        channelField.setY(-20);
+        System.out.println("Width:"+channelField.getWidth());
+        System.out.println("Height:" +channelField.getHeight());
+        buttonTexture = new Texture("graphics/buttonColor.jpg");
+
+        //buttonSprite = new Sprite(buttonTexture,(int)channelField.getWidth(),(int)channelField.getHeight());
+
+
         TextField.TextFieldStyle inputStyle = new TextField.TextFieldStyle();
         inputStyle.fontColor = Color.BLACK;
         inputStyle.font = new BitmapFont();
@@ -103,13 +118,17 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         message_field.setPosition(530, 310);
         message_field.toFront();
 
-        channelListPanel = new Rectangle();
+        ShapeRenderer border = new ShapeRenderer();
+
+        channelListPanel = new TextArea("", messageStyle);
+        channelListPanel.setBounds(1500,250,200,550);
+        channelListPanel.setPrefRows(4);
+
         userListPanel = new TextArea("", messageStyle);
 
         users = new String[5];
         channels = new ArrayList<>();
 
-        border = new ShapeRenderer();
         messageFieldBackground = new ShapeRenderer();
 
         inputMessage = new TextField("", inputStyle);
@@ -132,12 +151,12 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         openingMusic.play();
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         imagesRender();
 
-        //channelListPanel.set(1450, 210, 290, 600);
         userListPanel.setBounds(180, 210, 290, 600);
 
         stage.draw();
@@ -155,17 +174,18 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         users[3] = "Marco";
         users[4] = "Moreira";
 
-        channels.add(new Rectangle(channelListPanel.x,channelListPanel.y,channelListPanel.width,20));
+        System.out.println(channelListPanel.getHeight()/channelListPanel.getLinesShowing());
 
-        for(String user: users){
+        channels.add(new Rectangle(1500, 770, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 720, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 670, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 620, channelListPanel.getWidth(), 30));
+        channels.add(new Rectangle(1500, 570, channelListPanel.getWidth(), 30));
 
-            userListPanel.appendText(user+"\n");
+        for (String user : users) {
 
-        }
-
-        for(Rectangle channel: channels){
-
-            Texture texture = new Texture("graphics/buttonColor.jpg");
+            userListPanel.appendText(user + "\n");
 
         }
 
@@ -180,17 +200,18 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         System.out.println("Message from " + from + " " + message);
 
     }
+
     /**
      * Backspace key on most PC keyboards; Delete key on Mac keyboards. Used to delete the previous character.
      */
     //public static final char BACKSPACE = '\u2280';
-
     @Override
     public void dispose() {
 
         batch.dispose();
         background.dispose();
         chatBox.dispose();
+        buttonTexture.dispose();
         stage.dispose();
 
     }
@@ -215,8 +236,8 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     @Override
     public boolean keyDown(int keycode) {
 
-        boolean alt =  Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
-                ctrl =  Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
+        boolean alt = Gdx.input.isKeyPressed(ALT_LEFT) || Gdx.input.isKeyPressed(ALT_RIGHT),
+                ctrl = Gdx.input.isKeyPressed(CONTROL_LEFT) || Gdx.input.isKeyPressed(CONTROL_RIGHT),
                 shift = Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_RIGHT);
 
         if (keycode == BACKSPACE) {
@@ -238,9 +259,16 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     private void imagesRender() {
 
         batch.begin();
+        batch.draw(buttonTexture,channelField.getX(),channelField.getY(),channelField.getWidth(),channelField.getHeight());
 
         batch.draw(background, backgroundRec.x, backgroundRec.y);
         batch.draw(chatBox, chatBoxRec.x, chatBoxRec.y);
+
+        for (Rectangle channel : channels) {
+
+            batch.draw(buttonTexture, channel.x, channel.y,channel.width,channel.height);
+
+        }
 
         batch.end();
 
@@ -256,7 +284,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
         return false;
     }
 
-    public char fromCode(int keycode, boolean shift){
+    public char fromCode(int keycode, boolean shift) {
         switch (keycode) {
             case Input.Keys.HOME:
                 return HOME;
@@ -359,7 +387,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
             case Input.Keys.COMMA:
                 return (shift) ? '<' : ',';
             case Input.Keys.PERIOD:
-                return (shift) ? '>' :'.';
+                return (shift) ? '>' : '.';
             case Input.Keys.TAB:
                 return TAB;
             case Input.Keys.SPACE:
@@ -373,19 +401,19 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
             case Input.Keys.MINUS:
                 return (shift) ? '_' : '-';
             case Input.Keys.EQUALS:
-                return (shift) ? '+' :'=';
+                return (shift) ? '+' : '=';
             case Input.Keys.LEFT_BRACKET:
-                return (shift) ? '{' :'[';
+                return (shift) ? '{' : '[';
             case Input.Keys.RIGHT_BRACKET:
-                return (shift) ? '}' :']';
+                return (shift) ? '}' : ']';
             case Input.Keys.BACKSLASH:
-                return (shift) ? '|' :'\\';
+                return (shift) ? '|' : '\\';
             case Input.Keys.SEMICOLON:
-                return (shift) ? ':' :';';
+                return (shift) ? ':' : ';';
             case Input.Keys.APOSTROPHE:
-                return (shift) ? '"' :'\'';
+                return (shift) ? '"' : '\'';
             case Input.Keys.SLASH:
-                return (shift) ? '?' :'/';
+                return (shift) ? '?' : '/';
             case Input.Keys.AT:
                 return '@';
             case Input.Keys.PAGE_UP:
@@ -433,37 +461,37 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
     public static final char BACKSPACE = '\u2280';
     /**
      * Delete key on most PC keyboards; no equivalent on some (all?) Mac keyboards. Used to delete the next character.
-     *
+     * <p>
      * Not present on some laptop keyboards and some (all?) Mac keyboards.
      */
     public static final char FORWARD_DELETE = '\u2281';
     /**
      * Insert key. Not recommended for common use because it could affect other application behavior.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char INSERT = '\u2208';
     /**
      * Page Down key.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char PAGE_DOWN = '\u22A4';
     /**
      * Page Up key.
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char PAGE_UP = '\u22A5';
     /**
      * Home key (commonly used for moving a cursor to start of line).
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char HOME = '\u2302';
     /**
      * End key (commonly used for moving a cursor to end of line).
-     *
+     * <p>
      * Not present on some laptop keyboards.
      */
     public static final char END = '\u2623';
@@ -489,6 +517,7 @@ public class MainView extends ApplicationAdapter implements InputProcessor, Mess
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println("X:" + screenX + ", Y:" + screenY);
         return false;
     }
 
